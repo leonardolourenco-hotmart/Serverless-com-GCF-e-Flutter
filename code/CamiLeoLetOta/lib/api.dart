@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:dougota/main.dart';
+import 'package:CamiLeoLetOta/main.dart';
 
 class Api {
   String url(String path) => 'API_URL';
