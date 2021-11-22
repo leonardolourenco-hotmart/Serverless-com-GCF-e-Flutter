@@ -22,9 +22,8 @@ PUC Minas
 
 ### Especificação
 
-Durante as aulas de laboratório foram apresentadas formas de se acessar o GCF e o Firebase.
 
-Neste trabalho iremos implementar uma aplicação que ilustre uma situação de sistema ciente de contexto (context-aware system).
+Neste trabalho iremos implementar uma aplicação que ilustre uma situação de sistema ciente de contexto (context-aware system). O sistema deve funcionar da seguinte forma:
 
 #### Requisitos
 
