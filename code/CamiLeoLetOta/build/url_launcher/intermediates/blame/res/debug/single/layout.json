@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/notification_action.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/notification_action.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/notification_action_tombstone.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/custom_dialog.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/notification_template_icon_group.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/layout/notification_template_part_time.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/layout/notification_template_part_time.xml"
+    }
+]

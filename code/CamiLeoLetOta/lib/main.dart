@@ -1,167 +1,151 @@
-import 'package:CamiLeoLetOta/service_exception.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-//import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
-import 'package:http/http.dart';
-import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-import 'api.dart';
+import 'dart:io';
 
-const double CAMERA_ZOOM = 16;
-const double CAMERA_TILT = 80;
-const double CAMERA_BEARING = 30;
-const LatLng SOURCE_LOCATION = LatLng(42.747932, -71.167889);
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: MyHomePage(title: 'PUC SPOT MINAS'),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  //GoogleMapController mapController;
-  Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> _markers = Set<Marker>();
-  BitmapDescriptor meIcon;
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
 
-  //PolylinePoints polylinePoints;
-  Location location;
-  LocationData currentLocation;
+  final String title;
 
-  // final LatLng _center = const LatLng(45.521563, -122.677433);
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-//  -19.9333, -43.9361
+class _MyHomePageState extends State<MyHomePage> {
+  GoogleMapController mapController;
 
-  String googleAPIKey = "API_KEY";
-
-  final _api = Api();
-
-  void _onMapCreated(GoogleMapController controller) {
-    // mapController = controller;
-    // controller.setMapStyle(Utils.mapStyles);
-    _controller.complete(controller);
-    showPinsOnMap();
-  }
+  static LatLng _currentPosition;
+  final cont = 0;
 
   @override
   void initState() {
     super.initState();
-
-    location = new Location();
-
-    location.onLocationChanged.listen((LocationData cLoc) {
-      currentLocation = cLoc;
-      updatePinOnMap();
-    });
-
-    // setIcon();
-
-    setInitialLocation();
+    _getUserCurrentLocation();
+    _listenUserLocation();
   }
 
-  void setInitialLocation() async {
-    currentLocation = await location.getLocation();
-  }
-
-  void showPinsOnMap() {
-    var pinPosition =
-        LatLng(currentLocation.latitude, currentLocation.longitude);
-    _markers.add(Marker(
-      markerId: MarkerId('mePin'),
-      position: pinPosition,
-      // icon: Icons.location_pin
-      // icon: meIcon
-    ));
-  }
-
-  void updatePinOnMap() async {
-    CameraPosition cPosition = CameraPosition(
-        zoom: CAMERA_ZOOM,
-        tilt: CAMERA_TILT,
-        bearing: CAMERA_BEARING,
-        target: LatLng(currentLocation.latitude, currentLocation.longitude));
-
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+  void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      var pinPosition =
-          LatLng(currentLocation.latitude, currentLocation.longitude);
-
-      consumeAPI(pinPosition);
-
-      _markers.removeWhere((m) => m.markerId.value == 'mePin');
-      _markers.add(Marker(
-        markerId: MarkerId('mePin'), position: pinPosition,
-        // icon: meIcon
-      ));
+      mapController = controller;
     });
   }
 
-  void setIcon() async {
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.0), 'assets/chaplin;png')
-        .then((onValue) {
-      meIcon = onValue;
+  void _showAlert(BuildContext context, String campus) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Você chegou!"),
+          content: Text("Bem vindo(a) à PUC Minas unidade " + campus),
+          actions: [
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("FECHAR"))
+          ],
+        );
+      },
+    );
+  } // end _showAlert()
+
+  _getUserCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    setState(() {
+      _currentPosition = LatLng(position.latitude, position.longitude);
     });
-  }
+  } // end _getUserCurrentLocation()
 
-  Future<void> consumeAPI(LatLng position) async {
-    final url = _api.url('');
-    final headers = _api.buildJsonHeader();
-    final body =
-        jsonEncode({'lat': position.latitude, 'lng': position.longitude});
+  _listenUserLocation() {
+    Geolocator.getPositionStream(
+            desiredAccuracy: LocationAccuracy.best,
+            timeInterval: 1000,
+            distanceFilter: 50)
+        .listen((Position position) {
+      setState(() {
+        _currentPosition = LatLng(position.latitude, position.longitude);
+      });
+      // _tryCheckInCampus();
+    });
+  } // end _listenUserLocation()
 
-    log(body);
+  _tryCheckInCampus() async {
+    await searchCampus(_currentPosition);
+  } // _tryCheckInCampus()
 
-    Response response = await post(url, headers: headers, body: body);
+  searchCampus(LatLng currentPosition) async {
+    var lat, long;
 
-    if (response.statusCode >= 200 && response.statusCode < 300)
-      log(response.body);
-    else
-      throw ServiceException(code: response.statusCode, message: response.body);
-  }
+    lat = currentPosition.latitude;
+    long = currentPosition.longitude;
+    String url =
+        "https://us-central1-mediar-painel.cloudfunctions.net/micro-api?lat=$lat&lng=$long";
+
+    var httpClient = new HttpClient();
+
+    try {
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == 200) {
+        var json =
+            await response.transform(utf8.decoder).asBroadcastStream().join();
+        var data = jsonDecode(json);
+        if (data['response'] == true) {
+          _showAlert(context, data['campus']);
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  } // end searchCampus()
 
   @override
   Widget build(BuildContext context) {
-    CameraPosition initialCameraPosition = CameraPosition(
-        zoom: CAMERA_ZOOM,
-        tilt: CAMERA_TILT,
-        bearing: CAMERA_BEARING,
-        target: LatLng(0.0, 0.0));
-
-    if (currentLocation != null) {
-      initialCameraPosition = CameraPosition(
-          target: LatLng(currentLocation.latitude, currentLocation.longitude),
-          zoom: CAMERA_ZOOM,
-          tilt: CAMERA_TILT,
-          bearing: CAMERA_BEARING);
-    }
-
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: Text('Mapa'),
-        backgroundColor: Colors.green[700],
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('PUC SPOT MINAS'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: _currentPosition == null
+            ? Container(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            : GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _currentPosition,
+                  zoom: 15,
+                ),
+                zoomGesturesEnabled: true,
+                myLocationEnabled: true,
+                compassEnabled: true,
+                zoomControlsEnabled: false,
+              ),
       ),
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-              myLocationEnabled: true,
-              compassEnabled: true,
-              tiltGesturesEnabled: false,
-              markers: _markers,
-              mapType: MapType.normal,
-              initialCameraPosition: initialCameraPosition,
-              onMapCreated: _onMapCreated)
-        ],
-      ),
-      // child:
-    ));
+    );
   }
 }

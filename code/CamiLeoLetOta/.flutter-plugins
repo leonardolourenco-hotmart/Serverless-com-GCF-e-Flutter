@@ -1,0 +1,12 @@
+# This is a generated file; do not edit or check into version control.
+flutter_plugin_android_lifecycle=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-1.0.11/
+geocoding=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/geocoding-1.0.5/
+geolocator=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-6.2.1/
+geolocator_web=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_web-1.0.1/
+google_maps_flutter=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-1.2.0/
+location_permissions=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/location_permissions-2.0.5/
+url_launcher=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-5.7.10/
+url_launcher_linux=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_linux-0.0.1+4/
+url_launcher_macos=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_macos-0.0.1+9/
+url_launcher_web=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_web-0.1.5+3/
+url_launcher_windows=/usr/local/Caskroom/flutter/2.2.3/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_windows-0.0.1+3/

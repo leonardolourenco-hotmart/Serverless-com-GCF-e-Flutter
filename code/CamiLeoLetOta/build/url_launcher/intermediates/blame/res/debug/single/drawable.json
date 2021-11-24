@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/drawable/notification_bg.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/drawable/notification_bg_low.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/drawable/notification_icon_background.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/Users/mac-00116/Documents/Serverless-com-GCF-e-Flutter/code/CamiLeoLetOta/build/url_launcher/intermediates/res/merged/debug/drawable/notification_tile_bg.xml",
+        "source": "/Users/mac-00116/.gradle/caches/transforms-2/files-2.1/1ba350198ea174eeece4da9ff55b6f1b/core-1.1.0/res/drawable/notification_tile_bg.xml"
+    }
+]
