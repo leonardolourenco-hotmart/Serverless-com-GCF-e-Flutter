@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -37,13 +38,16 @@ class _MyHomePageState extends State<MyHomePage> {
   GoogleMapController mapController;
 
   static LatLng _currentPosition;
-  final cont = 0;
+  bool checkin = false;
+  Timer timer;
 
   @override
   void initState() {
     super.initState();
     _getUserCurrentLocation();
     _listenUserLocation();
+    timer =
+        Timer.periodic(Duration(seconds: 30), (Timer t) => _tryCheckInCampus());
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -53,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showAlert(BuildContext context, String campus) {
+    checkin = true;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -88,7 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
       });
-      // _tryCheckInCampus();
+      if (checkin) {
+        timer.cancel();
+      }
     });
   } // end _listenUserLocation()
 
