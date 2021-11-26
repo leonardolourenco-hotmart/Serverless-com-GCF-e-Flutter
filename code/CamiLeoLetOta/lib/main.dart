@@ -15,12 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'PUC SPOT MINAS'),
+      home: MyHomePage(title: 'MAPS'),
     );
   }
 }
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _getUserCurrentLocation();
     _listenUserLocation();
     timer =
-        Timer.periodic(Duration(seconds: 30), (Timer t) => _tryCheckInCampus());
+        Timer.periodic(Duration(seconds: 30), (Timer t) => _checkInCampus());
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -62,32 +62,32 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Você chegou!"),
-          content: Text("Bem vindo(a) à PUC Minas unidade " + campus),
+          content: Text("Bem vindo à PUC Minas unidade " + campus),
           actions: [
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("FECHAR"))
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            )
           ],
         );
       },
     );
-  } // end _showAlert()
+  }
 
-  _getUserCurrentLocation() async {
+  void _getUserCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     setState(() {
       _currentPosition = LatLng(position.latitude, position.longitude);
     });
-  } // end _getUserCurrentLocation()
+  }
 
-  _listenUserLocation() {
+  void _listenUserLocation() {
     Geolocator.getPositionStream(
             desiredAccuracy: LocationAccuracy.best,
-            timeInterval: 1000,
+            intervalDuration: Duration(seconds: 1),
             distanceFilter: 50)
         .listen((Position position) {
       setState(() {
@@ -97,13 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
         timer.cancel();
       }
     });
-  } // end _listenUserLocation()
+  }
 
-  _tryCheckInCampus() async {
-    await searchCampus(_currentPosition);
-  } // _tryCheckInCampus()
+  _checkInCampus() async {
+    await findCampus(_currentPosition);
+  }
 
-  searchCampus(LatLng currentPosition) async {
+  findCampus(LatLng currentPosition) async {
     var lat, long;
 
     lat = currentPosition.latitude;
@@ -127,15 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       print(e);
     }
-  } // end searchCampus()
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('PUC SPOT MINAS'),
-          backgroundColor: Colors.green[700],
+          title: Text('MAPS'),
+          backgroundColor: Colors.blue[600],
         ),
         body: _currentPosition == null
             ? Container(
